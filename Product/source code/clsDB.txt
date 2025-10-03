@@ -1,0 +1,42 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package com.mycompany.edutrack2;
+
+//This is a java class which contains the main() function.
+import java.sql.*;
+import javax.swing.*;
+import java.io.*;
+
+public class clsDB {
+    public static login log;
+    public static Connection conn = null;
+
+    /*Function to create a connection with the database and store the connection in a
+    variable of type Connection.*/
+    public static void java_db() {
+        try {
+            Class.forName("org.sqlite.JDBC");
+            //storing the connection in Connection conn
+            conn = DriverManager.getConnection("jdbc:sqlite:database/EduTrack2.db");
+        } catch (ClassNotFoundException | SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getLocalizedMessage());
+        }
+    }
+    
+    public static void main(String[] args) throws IOException{
+        //calling the function java_db() to form the connection
+        java_db();
+        //checking if connection has been created and stored
+        if (conn != null) {
+            JOptionPane.showMessageDialog(null, "Connected to the database."); 
+            //once connection has been created, the login page is opened up
+            log = new login(conn);
+            log.setVisible(true);
+        } else {
+            //else an error message is shown
+            JOptionPane.showMessageDialog(null, "Failed to connect to the database. Please ensure that the correct database has been downloaded.");
+        }
+    }
+}
